@@ -1,0 +1,24 @@
+{
+    "playlists": [
+        {
+            "id": "quydinh",
+            "title": "15 bài hát quy định",
+            "thumbnail": "img/img_QDNDVN.jpg"
+        },
+        {
+            "id": "quankhu",
+            "title": "Nhạc truyền thống Quân Khu",
+            "thumbnail": "img/img_QK4.jpg"
+        },
+        {
+            "id": "sudoan",
+            "title": "Nhạc truyền thống Sư Đoàn",
+            "thumbnail": "img/img_f324.jpg"
+        },
+        {
+            "id": "trungdoan",
+            "title": "Nhạc truyền thống Trung Đoàn",
+            "thumbnail": "img/dtn.jpg"
+        }
+    ]
+}

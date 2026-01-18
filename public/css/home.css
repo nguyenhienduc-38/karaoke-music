@@ -1,0 +1,421 @@
+/* MILITARY THEME - HOME PAGE - REDESIGNED */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #1a1a1a;
+}
+
+/* ===== TOPBAR - MILITARY STYLE ===== */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0 30px;
+
+    background-color: rgba(46, 68, 52, 0.85); /* xanh quân đội mờ */
+
+    background-image: 
+        url('/public/img/1234.jpg'), 
+        url('/public/img/dtn.jpg');
+
+    background-size: 60%, 9%;
+    background-repeat: no-repeat, no-repeat;
+
+    /* ảnh 1 ở giữa lệch trái, ảnh 2 sát phải */
+    background-position: center left 70%, right 20px center;
+
+    border-bottom: 4px solid #4b6b57;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.topbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #d4af37 20%, 
+        #d4af37 80%, 
+        transparent
+    );
+}
+
+.topbar::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.5) 50%, 
+        transparent
+    );
+}
+
+.logo-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.logo123 {
+    font-weight: 700;
+    font-size: 20px;
+    color: green;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    letter-spacing: 3px;
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.logo123:hover {
+    color: #d4af37;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+    transform: scale(1.05);
+}
+
+.logo123 span {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* ===== VIDEO BACKGROUND ===== */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5) contrast(1.1);
+}
+
+.video-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        rgba(26, 77, 26, 0.5) 0%, 
+        rgba(0, 0, 0, 0.7) 100%
+    );
+    z-index: 1;
+}
+
+/* ===== CONTENT AREA - FIXED ===== */
+.content {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 0;
+}
+
+/* ===== VIDEO GRID - SCROLLABLE ===== */
+.videos {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 20px 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-content: start;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.videos::-webkit-scrollbar {
+    width: 10px;
+}
+
+.videos::-webkit-scrollbar-track {
+    background: rgba(10, 31, 10, 0.5);
+    border-radius: 5px;
+}
+
+.videos::-webkit-scrollbar-thumb {
+    background: #2d5016;
+    border-radius: 5px;
+    border: 1px solid #d4af37;
+}
+
+.videos::-webkit-scrollbar-thumb:hover {
+    background: #3d6026;
+}
+
+/* ===== VIDEO CARDS - ENHANCED ===== */
+.video-card {
+    background: linear-gradient(145deg, #1e3a1e 0%, #152815 100%);
+    border: 2px solid #2d5016;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    transition: all 0.35s ease;
+    position: relative;
+    height: fit-content;
+    width: 100%;
+}
+
+.video-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #d4af37, 
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(212, 175, 55, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.video-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4);
+    border-color: #d4af37;
+}
+
+.video-card:hover::before {
+    opacity: 1;
+}
+
+.video-card:hover::after {
+    opacity: 1;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(0.85);
+}
+
+.video-card:hover .thumbnail {
+    transform: scale(1.12);
+    filter: brightness(1.1);
+}
+
+.video-info {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+.video-info .title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #d4af37;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .video-info .title {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+    letter-spacing: 1.2px;
+}
+
+.video-info .channel {
+    font-size: 13px;
+    color: #a0c4a0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.video-info .channel::before {
+    content: '♪';
+    color: #d4af37;
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVE TABLET ===== */
+@media (max-width: 1024px) {
+    .videos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 20px 24px;
+        max-width: 750px;
+    }
+    
+    .thumbnail {
+        height: 150px;
+    }
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 768px) {
+    .topbar {
+        height: 80px;
+        padding: 0 16px;
+        background-size: 50%, 8%;
+        background-position: center, right 10px center;
+    }
+
+    .logo-box {
+        align-items: flex-start;
+    }
+
+    .logo123 {
+        font-size: 18px;
+        letter-spacing: 2px;
+        text-align: left;
+    }
+
+    .content {
+        top: 80px;
+    }
+
+    .videos {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .video-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        height: auto;
+    }
+
+    .thumbnail {
+        width: 120px;
+        height: 90px;
+        flex-shrink: 0;
+    }
+
+    .video-info {
+        flex: 1;
+        padding: 12px;
+        background: transparent;
+        backdrop-filter: none;
+    }
+
+    .video-info .title {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .video-info .channel {
+        font-size: 12px;
+    }
+
+    .video-card:hover {
+        transform: translateX(8px) scale(1.02);
+    }
+}
+
+@media (max-width: 480px) {
+    .topbar {
+        height: 70px;
+    }
+
+    .logo123 {
+        font-size: 15px;
+        letter-spacing: 1.5px;
+    }
+
+    .logo123:last-child {
+        font-size: 13px;
+    }
+    
+    .content {
+        top: 70px;
+    }
+
+    .thumbnail {
+        width: 100px;
+        height: 75px;
+    }
+
+    .video-info .title {
+        font-size: 13px;
+    }
+
+    .video-info .channel {
+        font-size: 11px;
+    }
+}
+
+/* ===== MILITARY TEXTURE ===== */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(26, 77, 26, 0.03) 2px,
+            rgba(26, 77, 26, 0.03) 4px
+        );
+    pointer-events: none;
+    z-index: -1;
+}

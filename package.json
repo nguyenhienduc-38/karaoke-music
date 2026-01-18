@@ -1,0 +1,15 @@
+{
+  "name": "music-web",
+  "version": "1.0.0",
+  "description": "Mini Spotify-style music web (Node + Express)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.1",
+    "node-fetch": "^3.3.2"
+  }
+}
