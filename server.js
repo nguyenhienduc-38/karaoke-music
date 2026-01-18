@@ -36,14 +36,16 @@ app.get('/video/:filename', async (req, res) => {
 
     res.status(upstream.status);
 
-    const h = {};
+    const h = {
+      'Accept-Ranges': 'bytes',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-store',
+      'Content-Disposition': 'inline'
+    };
+
     if (upstream.headers.get('content-type')) h['Content-Type'] = upstream.headers.get('content-type');
     if (upstream.headers.get('content-length')) h['Content-Length'] = upstream.headers.get('content-length');
     if (upstream.headers.get('content-range')) h['Content-Range'] = upstream.headers.get('content-range');
-
-    h['Accept-Ranges'] = 'bytes';
-    h['Access-Control-Allow-Origin'] = '*';
-    h['Cache-Control'] = 'no-store';
 
     res.set(h);
     upstream.body.pipe(res);
@@ -52,7 +54,10 @@ app.get('/video/:filename', async (req, res) => {
     res.sendStatus(500);
   }
 });
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running: http://localhost:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
