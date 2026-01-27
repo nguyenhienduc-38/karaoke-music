@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const VIETNIX_S3_BASE = "https://s3.vn-hcm-1.vietnix.cloud/songs";
+  const VIETNIX_S3_DANCE = "https://s3.vn-hcm-1.vietnix.cloud/dance";
+  const VIETNIX_S3_TUTORIAL = "https://s3.vn-hcm-1.vietnix.cloud/dancetutorial";
 
   /* ===============================
      MOBILE MENU TOGGLE
@@ -412,11 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
     dances.forEach((dance, index) => {
       const id = `dance-${dance.id}`;
 
-      // Xử lý videoUrl nếu có
+      // Sử dụng S3 DANCE bucket
       let videoUrl = '';
       if (dance.videoUrl) {
-        const fileName = dance.videoUrl.split('/').pop();
-        videoUrl = `${VIETNIX_S3_BASE}/${fileName}`;
+        videoUrl = `${VIETNIX_S3_DANCE}/${dance.videoUrl}`;
       }
 
       danceList.insertAdjacentHTML("beforeend", `
@@ -473,11 +474,10 @@ document.addEventListener("DOMContentLoaded", () => {
     tutorials.forEach((tutorial, index) => {
       const id = `tutorial-${tutorial.id}`;
 
-      // Xử lý videoUrl nếu có
+      // Sử dụng S3 TUTORIAL bucket
       let videoUrl = '';
       if (tutorial.videoUrl) {
-        const fileName = tutorial.videoUrl.split('/').pop();
-        videoUrl = `${VIETNIX_S3_BASE}/${fileName}`;
+        videoUrl = `${VIETNIX_S3_TUTORIAL}/${tutorial.videoUrl}`;
       }
 
       danceList.insertAdjacentHTML("beforeend", `

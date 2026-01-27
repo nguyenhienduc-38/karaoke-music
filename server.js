@@ -41,6 +41,16 @@ app.get('/dance-tutorial', (req, res) => {
   res.sendFile(path.join(VIEWS_DIR, 'dance-tutorial.html'));
 });
 
+// Trang nhạc có lời (15 bài hát)
+app.get('/music', (req, res) => {
+  res.sendFile(path.join(VIEWS_DIR, 'music.html'));
+});
+
+// Trang player nhạc có lời
+app.get('/musicqd', (req, res) => {
+  res.sendFile(path.join(VIEWS_DIR, 'musicqd.html'));
+});
+
 
 /* ===== STREAM VIDEO FROM VIETNIX S3 ===== */
 app.get('/video/:filename', async (req, res) => {

@@ -1,28 +1,34 @@
 {
     "dance-tutorial": [
         {
-            "id": "hd-vd-quan-nhan",
-            "title": "Hướng dẫn Vũ điệu quân nhân",
+            "id": "vd-hanh-quan",
+            "title": "Vũ điệu Hành Quân",
             "thumbnail": "img/img_QDNDVN.jpg",
-            "videoUrl": "/video/huong-dan-vd-quan-nhan.mp4"
+            "videoUrl": "vudieuhanhquan.mp4"
         },
         {
-            "id": "hd-vd-hoa-binh",
-            "title": "Hướng dẫn Vũ điệu hòa bình",
+            "id": "vd-hoa-binh",
+            "title": "Vũ điệu Hoà Bình",
             "thumbnail": "img/img_QK4.jpg",
-            "videoUrl": "/video/huong-dan-vd-hoa-binh.mp4"
+            "videoUrl": "vudieuhoabinh.mp4"
         },
         {
-            "id": "hd-vd-tap-the",
-            "title": "Hướng dẫn các điệu nhảy vũ điệu tập thể",
+            "id": "vd-linh-tre",
+            "title": "Vũ điệu Lính Trẻ",
             "thumbnail": "img/img_f324.jpg",
-            "videoUrl": "/video/huong-dan-vd-tap-the.mp4"
+            "videoUrl": "vudieulinhtre.mp4"
         },
         {
-            "id": "hd-vd-truyen-thong",
-            "title": "Hướng dẫn Vũ điệu truyền thống",
+            "id": "vd-niem-tin",
+            "title": "Vũ điệu Niềm Tin",
             "thumbnail": "img/dtn.jpg",
-            "videoUrl": "/video/huong-dan-vd-truyen-thong.mp4"
+            "videoUrl": "vudieuniemtin.mp4"
+        },
+        {
+            "id": "vd-quan-dan",
+            "title": "Vũ điệu Quân Dân",
+            "thumbnail": "img/img_QDNDVN.jpg",
+            "videoUrl": "vudieuquandan.mp4"
         }
     ]
 }

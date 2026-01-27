@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NHẠC QUÂN ĐỘI CÓ LỜI</title>
+  <link rel="stylesheet" href="/css/musicqd.css">
+</head>
+
+<body>
+
+  <!-- Overlay cho mobile menu -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="sidebar">
+      <button id="homeBtn" class="sidebar-btn">🏠 Home</button>
+    </div>
+
+    <div class="logo">NHẠC CÓ LỜI</div>
+
+    <!-- Nút mở playlist trên mobile -->
+    <button id="menuToggle" class="menu-toggle">🎵 Danh sách</button>
+  </header>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebarMenu">
+      <h2>Danh Sách Bài Hát</h2>
+      <div class="playlist" id="musicPlaylist">
+        <!-- Music items sẽ được load bởi JavaScript -->
+      </div>
+    </aside>
+
+    <!-- ⭐ VIDEO PLAYER -->
+    <div class="video-wrapper" id="videoWrapper" style="display:none;">
+      <video id="videoPlayer" width="100%" controls>
+        <source id="videoSrc" src="" type="video/mp4">
+        Trình duyệt không hỗ trợ video.
+      </video>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

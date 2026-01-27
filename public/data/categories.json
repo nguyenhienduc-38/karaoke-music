@@ -4,8 +4,8 @@
             "id": "nhac-tt",
             "title": "Bài hát truyền thống",
             "thumbnail": "img/img_QDNDVN.jpg",
-            "type": "direct-karaoke",
-            "note": "Nhấn vào đây sẽ chuyển trực tiếp đến trang chọn playlist karaoke"
+            "type": "music-page",
+            "note": "Nhấn vào đây sẽ chuyển đến trang music.html để xem 15 bài hát có lời"
         },
         {
             "id": "nhac-kara",
