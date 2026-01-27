@@ -1,0 +1,28 @@
+{
+    "dance-tutorial": [
+        {
+            "id": "hd-vd-quan-nhan",
+            "title": "Hướng dẫn Vũ điệu quân nhân",
+            "thumbnail": "img/img_QDNDVN.jpg",
+            "videoUrl": "/video/huong-dan-vd-quan-nhan.mp4"
+        },
+        {
+            "id": "hd-vd-hoa-binh",
+            "title": "Hướng dẫn Vũ điệu hòa bình",
+            "thumbnail": "img/img_QK4.jpg",
+            "videoUrl": "/video/huong-dan-vd-hoa-binh.mp4"
+        },
+        {
+            "id": "hd-vd-tap-the",
+            "title": "Hướng dẫn các điệu nhảy vũ điệu tập thể",
+            "thumbnail": "img/img_f324.jpg",
+            "videoUrl": "/video/huong-dan-vd-tap-the.mp4"
+        },
+        {
+            "id": "hd-vd-truyen-thong",
+            "title": "Hướng dẫn Vũ điệu truyền thống",
+            "thumbnail": "img/dtn.jpg",
+            "videoUrl": "/video/huong-dan-vd-truyen-thong.mp4"
+        }
+    ]
+}

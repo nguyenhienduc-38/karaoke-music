@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VŨ ĐIỆU TẬP THỂ - QUÂN ĐỘI</title>
+  <link rel="stylesheet" href="/css/dance.css">
+</head>
+
+<body>
+
+  <!-- Overlay cho mobile menu -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="sidebar">
+      <button id="homeBtn" class="sidebar-btn">🏠 Home</button>
+    </div>
+
+    <div class="logo">VŨ ĐIỆU TẬP THỂ</div>
+
+    <!-- Nút mở playlist trên mobile -->
+    <button id="menuToggle" class="menu-toggle">🎵 Danh sách</button>
+  </header>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebarMenu">
+      <h2>Danh Sách Vũ Điệu</h2>
+      <div class="playlist" id="danceList">
+        <!-- Dance items sẽ được load bởi JavaScript -->
+      </div>
+    </aside>
+
+    <!-- ⭐ VIDEO PLAYER -->
+    <div class="video-wrapper" id="videoWrapper" style="display:none;">
+      <video id="videoPlayer" width="100%" controls>
+        <source id="videoSrc" src="" type="video/mp4">
+        Trình duyệt không hỗ trợ video.
+      </video>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

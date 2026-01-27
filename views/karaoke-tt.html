@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KARAOKE NHẠC QUÂN ĐỘI</title>
+  <link rel="stylesheet" href="/css/karaoke-tt.css">
+</head>
+
+<body>
+
+  <!-- Overlay cho mobile menu -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="sidebar">
+      <button id="homeBtn" class="sidebar-btn">🏠 Home</button>
+    </div>
+
+    <!-- Nút mở playlist trên mobile -->
+    <button id="menuToggle" class="menu-toggle">🎵 Playlist</button>
+
+    <!-- <div class="search-bar">
+      <input type="text" placeholder="Tìm kiếm bài hát..." id="search-song" />
+      <button id="search-btn">🔍</button>
+    </div> -->
+  </header>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebarMenu">
+      <h2>Playlist</h2>
+      <div class="playlist" id="playlist">
+      </div>
+    </aside>
+
+
+    <!-- ⭐ VIDEO PLAYER -->
+    <div class="video-wrapper" id="videoWrapper" style="display:none;">
+      <video id="videoPlayer" width="100%" controls>
+        <source id="videoSrc" src="" type="video/mp4">
+        Trình duyệt không hỗ trợ video.
+      </video>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

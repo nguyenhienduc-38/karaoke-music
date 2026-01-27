@@ -3,22 +3,26 @@
         {
             "id": "quydinh",
             "title": "15 bài hát quy định",
-            "thumbnail": "img/img_QDNDVN.jpg"
+            "thumbnail": "img/img_QDNDVN.jpg",
+            "category": "karaoke-tt"
         },
         {
             "id": "quankhu",
             "title": "Nhạc truyền thống Quân Khu",
-            "thumbnail": "img/img_QK4.jpg"
+            "thumbnail": "img/img_QK4.jpg",
+            "category": "karaoke-tt"
         },
         {
             "id": "sudoan",
             "title": "Nhạc truyền thống Sư Đoàn",
-            "thumbnail": "img/img_f324.jpg"
+            "thumbnail": "img/img_f324.jpg",
+            "category": "karaoke-tt"
         },
         {
             "id": "trungdoan",
             "title": "Nhạc truyền thống Trung Đoàn",
-            "thumbnail": "img/dtn.jpg"
+            "thumbnail": "img/dtn.jpg",
+            "category": "karaoke-tt"
         }
     ]
 }

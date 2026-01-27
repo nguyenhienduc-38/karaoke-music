@@ -2,51 +2,83 @@
 <html lang="vi">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>KARAOKE NHẠC QUÂN ĐỘI</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KARAOKE NHẠC QUÂN ĐỘI</title>
+    <link rel="stylesheet" href="/css/index.css" />
 </head>
 
 <body>
-
-  <!-- Overlay cho mobile menu -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="sidebar">
-      <button id="homeBtn" class="sidebar-btn">🏠 Home</button>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="logo-box">
+            <p class="logo123">HÀNH TRANG CTĐ, CTCT</p>
+        </div>
+    </div>
+    
+    <!-- VIDEO BACKGROUND -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="/img/11.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
-    <!-- Nút mở playlist trên mobile -->
-    <button id="menuToggle" class="menu-toggle">🎵 Playlist</button>
+    <!-- HIỆU ỨNG ÁNH SÁNG -->
+    <div class="stage-light light-1"></div>
+    <div class="stage-light light-2"></div>
+    <div class="stage-light light-3"></div>
+    <div class="stage-light light-4"></div>
+    <div class="stage-light light-5"></div>
 
-    <!-- <div class="search-bar">
-      <input type="text" placeholder="Tìm kiếm bài hát..." id="search-song" />
-      <button id="search-btn">🔍</button>
-    </div> -->
-  </header>
-
-  <div class="app">
-
-    <aside class="sidebar" id="sidebarMenu">
-      <h2>Playlist</h2>
-      <div class="playlist" id="playlist">
-      </div>
-    </aside>
-
-
-    <!-- ⭐ VIDEO PLAYER -->
-    <div class="video-wrapper" id="videoWrapper" style="display:none;">
-      <video id="videoPlayer" width="100%" controls>
-        <source id="videoSrc" src="" type="video/mp4">
-        Trình duyệt không hỗ trợ video.
-      </video>
+    <!-- NỐT NHẠC BAY DỌC -->
+    <div class="music-notes">
+        <div class="music-note">♪</div>
+        <div class="music-note">♫</div>
+        <div class="music-note">♪</div>
+        <div class="music-note">♬</div>
+        <div class="music-note">♫</div>
+        <div class="music-note">♪</div>
+        <div class="music-note">♬</div>
+        <div class="music-note">♫</div>
     </div>
-  </div>
 
-  <script src="/js/script.js"></script>
+    <!-- NỐT NHẠC BAY NGANG -->
+    <div class="flying-notes">
+        <div class="flying-note">♪♫</div>
+        <div class="flying-note">♬♪</div>
+        <div class="flying-note">♫♬</div>
+        <div class="flying-note">♪♪</div>
+        <div class="flying-note">♫♫</div>
+    </div>
+
+    <!-- DISCO SPOTS -->
+    <div class="disco-spots">
+        <div class="disco-spot"></div>
+        <div class="disco-spot"></div>
+        <div class="disco-spot"></div>
+        <div class="disco-spot"></div>
+        <div class="disco-spot"></div>
+    </div>
+
+    <!-- SPARKLES -->
+    <div class="sparkles">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content">
+        <div class="categories-container">
+            <!-- Categories sẽ được load bởi JavaScript -->
+        </div>
+    </div>
+    
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ⚙️ CẤU HÌNH VIETNIX S3 - ĐÃ FIX
   const VIETNIX_S3_BASE = "https://s3.vn-hcm-1.vietnix.cloud/songs";
 
   /* ===============================
@@ -10,20 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarMenu = document.getElementById('sidebarMenu');
 
   if (menuToggle && sidebarMenu) {
-    // Mở/đóng menu khi click nút
     menuToggle.addEventListener('click', () => {
       sidebarMenu.classList.toggle('active');
     });
 
-    // Đóng menu khi click vào backdrop (vùng tối)
     sidebarMenu.addEventListener('click', (e) => {
-      // Chỉ đóng khi click vào backdrop, không phải vào nội dung sidebar
       if (e.target === sidebarMenu && window.innerWidth <= 900) {
         sidebarMenu.classList.remove('active');
       }
     });
 
-    // Đóng menu khi chọn bài (chỉ trên mobile)
     document.addEventListener('change', (e) => {
       if (e.target.name === 'track' && window.innerWidth <= 900) {
         setTimeout(() => {
@@ -60,86 +55,196 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===============================
-     HOME – HIỂN THỊ PLAYLIST
+     HOME PAGE - HIỂN THỊ 4 CATEGORIES
+  =============================== */
+  const categoriesContainer = document.querySelector(".categories-container");
+
+  if (categoriesContainer) {
+    categoriesContainer.innerHTML = '<div class="loading">Đang tải danh mục...</div>';
+
+    fetch("/data/categories.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Categories loaded:", data);
+        if (!data.categories || !Array.isArray(data.categories)) {
+          throw new Error("Invalid data format");
+        }
+        renderCategories(data.categories);
+      })
+      .catch(error => {
+        console.error("❌ Lỗi load categories:", error);
+        categoriesContainer.innerHTML = `
+          <div class="loading" style="color: #ff4444;">
+            ⚠️ Không thể tải danh mục<br>
+            <span style="font-size: 14px; opacity: 0.8;">${error.message}</span>
+          </div>
+        `;
+      });
+  }
+
+  function renderCategories(categories) {
+    categoriesContainer.innerHTML = "";
+
+    categories.forEach(category => {
+      const card = document.createElement("div");
+      card.className = "category-card";
+      
+      card.innerHTML = `
+        <img class="category-thumbnail" src="${category.thumbnail}" alt="${category.title}">
+        <div class="category-info">
+          <div class="category-title">${category.title}</div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        console.log(`📂 Clicked: ${category.id} (${category.type})`);
+        
+        if (category.id === 'nhac-kara') {
+          // Chuyển đến trang music-k.html để chọn playlist
+          console.log(`→ Redirecting to: /karaokemusic`);
+          window.location.href = '/karaokemusic';
+        } else if (category.type === 'page') {
+          // Chuyển đến trang đặc biệt
+          console.log(`→ Redirecting to: ${category.page}`);
+          window.location.href = category.page;
+        }
+      };
+
+      categoriesContainer.appendChild(card);
+    });
+
+    console.log(`✅ Rendered ${categories.length} categories`);
+  }
+
+  /* ===============================
+     MUSIC-K.HTML - HIỂN THỊ PLAYLISTS
   =============================== */
   const videosContainer = document.querySelector(".videos");
 
   if (videosContainer) {
-    Promise.all([
-      fetch("/data/playlists.json").then(r => r.json()),
-      fetch("/data/songs.json").then(r => r.json())
-    ])
-      .then(([plData, songData]) => {
-        videosContainer.innerHTML = "";
+    console.log("📂 Loading playlists for music-k page...");
 
-        plData.playlists.forEach(pl => {
-          const playlistSongs =
-            songData.playlists.find(p => p.id === pl.id)?.songs || [];
-
-          const card = document.createElement("div");
-          card.className = "video-card";
-          card.innerHTML = `
-          <img class="thumbnail" src="${pl.thumbnail}">
-          <div class="video-info">
-            <div class="title">${pl.title}</div>
-            <div class="channel">${playlistSongs.length} bài hát</div>
+    fetch("/data/playlists.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Playlists loaded:", data);
+        if (!data.playlists || !Array.isArray(data.playlists)) {
+          throw new Error("Invalid playlists data format");
+        }
+        renderPlaylists(data.playlists);
+      })
+      .catch(error => {
+        console.error("❌ Lỗi load playlists:", error);
+        videosContainer.innerHTML = `
+          <div style="color: #ff4444; padding: 20px; text-align: center; grid-column: 1/-1;">
+            ⚠️ Không thể tải danh sách playlist<br>
+            <span style="font-size: 12px; opacity: 0.8;">${error.message}</span>
           </div>
         `;
+      });
+  }
 
-          card.onclick = () => {
-            window.location.href = `/index?playlist=${pl.id}`;
-          };
+  function renderPlaylists(playlists) {
+    videosContainer.innerHTML = "";
 
-          videosContainer.appendChild(card);
-        });
-      })
-      .catch(err => console.error("Lỗi load playlist:", err));
+    playlists.forEach(playlist => {
+      const card = document.createElement("div");
+      card.className = "video-card";
+      
+      card.innerHTML = `
+        <img class="thumbnail" src="${playlist.thumbnail}" alt="${playlist.title}">
+        <div class="video-info">
+          <div class="title">${playlist.title}</div>
+          <div class="channel">Playlist</div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        console.log(`📋 Selected playlist: ${playlist.id}`);
+        // Chuyển đến trang karaoke với playlist ID
+        window.location.href = `/karaoke?playlist=${playlist.id}`;
+      };
+
+      videosContainer.appendChild(card);
+    });
+
+    console.log(`✅ Rendered ${playlists.length} playlists`);
   }
 
   /* ===============================
-     PLAYLIST PAGE - VIETNIX S3
+     KARAOKE-TT.HTML - TẢI SONGS TỪ PLAYLIST
   =============================== */
   const playlistEl = document.getElementById("playlist");
   const videoWrapper = document.getElementById("videoWrapper");
   const videoPlayer = document.getElementById("videoPlayer");
   const videoSrc = document.getElementById("videoSrc");
 
-  if (!playlistEl) return;
+  if (playlistEl) {
+    const params = new URLSearchParams(window.location.search);
+    const playlistId = params.get("playlist");
 
-  const params = new URLSearchParams(window.location.search);
-  const playlistId = params.get("playlist");
+    if (!playlistId) {
+      console.warn("⚠️ No playlist ID in URL");
+      playlistEl.innerHTML = `
+        <div style="color: #ff4444; padding: 20px; text-align: center;">
+          ⚠️ Không có playlist được chọn
+        </div>
+      `;
+      return;
+    }
 
-  fetch("/data/songs.json")
-    .then(r => r.json())
-    .then(data => {
-      const playlist = data.playlists.find(p => p.id === playlistId);
-      if (!playlist) return;
+    console.log(`📂 Loading playlist: ${playlistId}`);
 
-      renderPlaylist(playlist.songs);
-      restoreLastSong();
-    })
-    .catch(err => {
-      console.error("Lỗi load songs.json:", err);
-      alert("Không thể tải danh sách bài hát");
-    });
+    fetch("/data/songs.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        const playlist = data.playlists.find(p => p.id === playlistId);
+        
+        if (!playlist) {
+          throw new Error(`Playlist not found: ${playlistId}`);
+        }
+
+        console.log(`✅ Playlist found: ${playlist.title}`);
+        console.log(`🎵 Songs count: ${playlist.songs.length}`);
+
+        renderPlaylist(playlist.songs);
+        restoreLastSong();
+      })
+      .catch(error => {
+        console.error("❌ Error loading playlist songs:", error);
+        playlistEl.innerHTML = `
+          <div style="color: #ff4444; padding: 20px; text-align: center;">
+            ⚠️ Không thể tải danh sách bài hát<br>
+            <span style="font-size: 12px;">${error.message}</span>
+          </div>
+        `;
+      });
+  }
 
   function renderPlaylist(songs) {
     playlistEl.innerHTML = "";
 
-    songs.forEach(song => {
-      const id = `song-${playlistId}-${song.id}`;
+    songs.forEach((song, index) => {
+      const uniqueId = `song-${song.id}`;
 
-      // ✅ Lấy tên file: "/video/QC.mp4" -> "QC.mp4"
       const fileName = song.videoUrl.split('/').pop();
-
-      // ✅ Tạo URL Vietnix S3: https://s3.vn-hcm-1.vietnix.cloud/songs/QC.mp4
       const s3Url = `${VIETNIX_S3_BASE}/${fileName}`;
 
       playlistEl.insertAdjacentHTML("beforeend", `
-        <input type="radio" name="track" id="${id}"
+        <input type="radio" name="track" id="${uniqueId}"
                data-video="${s3Url}"
-               data-title="${song.title}">
-        <label for="${id}" class="track">
+               data-title="${song.title}"
+               ${index === 0 ? 'checked' : ''}>
+        <label for="${uniqueId}" class="track">
           <img class="thumb" src="${song.thumbnail}">
           <div class="meta">
             <div class="title">${song.title}</div>
@@ -149,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `);
     });
 
+    console.log(`✅ Rendered ${songs.length} songs`);
     bindPlayerEvents();
   }
 
@@ -167,76 +273,66 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`📹 Loading: ${title}`);
     console.log(`🔗 URL: ${videoUrl}`);
 
-    // ✅ Dừng video hiện tại trước khi load video mới
+    // Lưu lựa chọn hiện tại
+    localStorage.setItem("currentSong", input.id);
+
     videoPlayer.pause();
     videoPlayer.removeAttribute('src');
     videoSrc.removeAttribute('src');
 
-    videoWrapper.style.display = "block";
-    videoPlayer.style.opacity = "0.5";
-
-    // ✅ Đợi một chút để đảm bảo video cũ đã dừng hẳn
     setTimeout(() => {
-      // ✅ Chỉ load metadata trước, video sẽ stream khi play
-      videoPlayer.preload = "none"; // Thay đổi từ "metadata" thành "none"
+      videoWrapper.style.display = "flex";
+      
+      // Thêm loading indicator
+      videoPlayer.style.opacity = "0.5";
+      const loadingText = document.createElement('div');
+      loadingText.textContent = 'Đang tải video...';
+      loadingText.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #d4af37;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        z-index: 1000;
+        background: rgba(0,0,0,0.8);
+        padding: 20px 40px;
+        border-radius: 10px;
+        border: 2px solid #d4af37;
+      `;
+      videoWrapper.appendChild(loadingText);
+
       videoSrc.src = videoUrl;
       videoPlayer.load();
 
-      // ✅ Hiển thị % loading
-      let loadingText = document.createElement('div');
-      loadingText.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:20px;background:rgba(0,0,0,0.7);padding:20px;border-radius:10px;';
-      loadingText.textContent = 'Đang tải...';
-      videoWrapper.appendChild(loadingText);
-
-      // ✅ Theo dõi tiến trình tải
-      videoPlayer.addEventListener('progress', function onProgress() {
-        if (videoPlayer.buffered.length > 0) {
-          const buffered = videoPlayer.buffered.end(0);
-          const duration = videoPlayer.duration;
-          const percent = Math.round((buffered / duration) * 100);
-          loadingText.textContent = `Đang tải... ${percent}%`;
-        }
-      });
-
-      // ✅ Ẩn loading khi có thể play
-      videoPlayer.addEventListener('canplay', function onCanPlay() {
+      videoPlayer.addEventListener("loadedmetadata", function onLoad() {
+        console.log(`✅ Video loaded: ${title} - Ready to play`);
+        videoPlayer.style.opacity = "1";
         if (loadingText && loadingText.parentNode) {
           loadingText.remove();
         }
-      }, { once: true });
-
-      // ✅ Chỉ play khi đã load xong metadata
-      videoPlayer.addEventListener("loadedmetadata", function onMetadata() {
-        console.log(`✅ Video ready: ${Math.round(videoPlayer.duration)}s`);
-        videoPlayer.style.opacity = "1";
-
-        // ✅ Play sau khi metadata đã sẵn sàng
+        
+        // Auto play
         const playPromise = videoPlayer.play();
-
         if (playPromise !== undefined) {
           playPromise
-            .then(() => {
-              console.log("▶️ Playing...");
-              localStorage.setItem("currentSong", input.id);
-            })
-            .catch(err => {
-              console.error("Play prevented:", err);
-              if (err.name === "NotAllowedError") {
-                console.log("ℹ️ Autoplay blocked - Click play button");
-              }
-            });
+            .then(() => console.log("▶️ Playing..."))
+            .catch(err => console.warn("⚠️ Autoplay blocked:", err));
         }
-
-        videoPlayer.removeEventListener("loadedmetadata", onMetadata);
+        
+        videoPlayer.removeEventListener("loadedmetadata", onLoad);
       });
 
       videoPlayer.addEventListener("error", function onError(e) {
         console.error("❌ Video error:", e);
-
+        
         let errorMsg = "Không thể tải video";
+        
         if (videoPlayer.error) {
-          switch (videoPlayer.error.code) {
-            case 1: errorMsg = "Tải video bị hủy"; break;
+          switch(videoPlayer.error.code) {
+            case 1: errorMsg = "Video tải bị hủy"; break;
             case 2: errorMsg = "Lỗi mạng khi tải video"; break;
             case 3: errorMsg = "Video bị lỗi hoặc không hỗ trợ"; break;
             case 4: errorMsg = "Video không tồn tại hoặc bị chặn (CORS)"; break;
@@ -244,12 +340,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         alert(`${errorMsg}\n\nURL: ${videoUrl}\n\nKiểm tra Console (F12) để biết chi tiết`);
-
         videoPlayer.style.opacity = "1";
+        if (loadingText && loadingText.parentNode) {
+          loadingText.remove();
+        }
         videoPlayer.removeEventListener("error", onError);
       }, { once: true });
 
-    }, 100); // Đợi 100ms để đảm bảo video cũ đã clear
+    }, 100);
   }
 
   function restoreLastSong() {
@@ -261,17 +359,15 @@ document.addEventListener("DOMContentLoaded", () => {
       input.checked = true;
       console.log("💾 Restored last song");
 
-      // ✅ Load video nhưng KHÔNG play
       const videoUrl = input.dataset.video;
       const title = input.dataset.title;
 
       console.log(`📹 Restoring: ${title}`);
 
-      videoWrapper.style.display = "block";
+      videoWrapper.style.display = "flex";
       videoSrc.src = videoUrl;
       videoPlayer.load();
 
-      // ✅ Chỉ hiển thị video, không play
       videoPlayer.addEventListener("loadedmetadata", function onRestore() {
         console.log(`✅ Video restored: ${title} - Ready to play`);
         videoPlayer.removeEventListener("loadedmetadata", onRestore);
@@ -280,19 +376,155 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     HOME BUTTON
+     DANCE.HTML - TẢI DANCE DATA
+  =============================== */
+  const danceList = document.getElementById("danceList");
+
+  if (danceList) {
+    console.log("📂 Loading dance.json...");
+    
+    fetch("/data/dance.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Dance data loaded:", data);
+        if (!data.dance || !Array.isArray(data.dance)) {
+          throw new Error("Invalid dance data format");
+        }
+        renderDanceList(data.dance);
+      })
+      .catch(error => {
+        console.error("❌ Lỗi load dance.json:", error);
+        danceList.innerHTML = `
+          <div style="color: #ff4444; padding: 20px; text-align: center;">
+            ⚠️ Không thể tải danh sách vũ điệu<br>
+            <span style="font-size: 12px; opacity: 0.8;">${error.message}</span>
+          </div>
+        `;
+      });
+  }
+
+  function renderDanceList(dances) {
+    danceList.innerHTML = "";
+
+    dances.forEach((dance, index) => {
+      const id = `dance-${dance.id}`;
+
+      // Xử lý videoUrl nếu có
+      let videoUrl = '';
+      if (dance.videoUrl) {
+        const fileName = dance.videoUrl.split('/').pop();
+        videoUrl = `${VIETNIX_S3_BASE}/${fileName}`;
+      }
+
+      danceList.insertAdjacentHTML("beforeend", `
+        <input type="radio" name="track" id="${id}"
+               data-video="${videoUrl}"
+               data-title="${dance.title}"
+               ${index === 0 ? 'checked' : ''}>
+        <label for="${id}" class="track">
+          <img class="thumb" src="${dance.thumbnail}">
+          <div class="meta">
+            <div class="title">${dance.title}</div>
+          </div>
+        </label>
+      `);
+    });
+
+    console.log(`✅ Rendered ${dances.length} dance items`);
+    bindPlayerEvents();
+  }
+
+  /* ===============================
+     DANCE-TUTORIAL.HTML - TẢI TUTORIAL DATA  
+  =============================== */
+  // Sử dụng danceList vì cả 2 trang có cùng ID
+  if (window.location.pathname.includes('dance-tutorial') && danceList) {
+    console.log("📂 Loading dance-tutorial.json...");
+    
+    fetch("/data/dance-tutorial.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Dance tutorial data loaded:", data);
+        if (!data["dance-tutorial"] || !Array.isArray(data["dance-tutorial"])) {
+          throw new Error("Invalid dance-tutorial data format");
+        }
+        renderTutorialList(data["dance-tutorial"]);
+      })
+      .catch(error => {
+        console.error("❌ Lỗi load dance-tutorial.json:", error);
+        danceList.innerHTML = `
+          <div style="color: #ff4444; padding: 20px; text-align: center;">
+            ⚠️ Không thể tải danh sách hướng dẫn<br>
+            <span style="font-size: 12px; opacity: 0.8;">${error.message}</span>
+          </div>
+        `;
+      });
+  }
+
+  function renderTutorialList(tutorials) {
+    danceList.innerHTML = "";
+
+    tutorials.forEach((tutorial, index) => {
+      const id = `tutorial-${tutorial.id}`;
+
+      // Xử lý videoUrl nếu có
+      let videoUrl = '';
+      if (tutorial.videoUrl) {
+        const fileName = tutorial.videoUrl.split('/').pop();
+        videoUrl = `${VIETNIX_S3_BASE}/${fileName}`;
+      }
+
+      danceList.insertAdjacentHTML("beforeend", `
+        <input type="radio" name="track" id="${id}"
+               data-video="${videoUrl}"
+               data-title="${tutorial.title}"
+               ${index === 0 ? 'checked' : ''}>
+        <label for="${id}" class="track">
+          <img class="thumb" src="${tutorial.thumbnail}">
+          <div class="meta">
+            <div class="title">${tutorial.title}</div>
+          </div>
+        </label>
+      `);
+    });
+
+    console.log(`✅ Rendered ${tutorials.length} tutorial items`);
+    bindPlayerEvents();
+  }
+
+  /* ===============================
+     HOME BUTTON - TRỞ VỀ TRANG CHỦ
   =============================== */
   const homeBtn = document.getElementById("homeBtn");
   if (homeBtn) {
     homeBtn.addEventListener("click", () => {
-      window.location.href = "/home";
+      console.log("🏠 Going home...");
+      window.location.href = "/index";
     });
   }
 
-  // ✅ PRECONNECT để tăng tốc load
+  /* ===============================
+     PRECONNECT TO S3
+  =============================== */
   const link = document.createElement("link");
   link.rel = "preconnect";
   link.href = "https://s3.vn-hcm-1.vietnix.cloud";
   document.head.appendChild(link);
+
+  /* ===============================
+     ERROR HANDLING FOR IMAGES
+  =============================== */
+  document.addEventListener("error", (e) => {
+    if (e.target.tagName === "IMG") {
+      console.error("❌ Failed to load image:", e.target.src);
+      e.target.style.background = "linear-gradient(145deg, #1e3a1e 0%, #152815 100%)";
+    }
+  }, true);
 
 });

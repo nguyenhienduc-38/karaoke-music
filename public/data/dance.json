@@ -1,0 +1,28 @@
+{
+    "dance": [
+        {
+            "id": "vd-quan-nhan",
+            "title": "Vũ điệu quân nhân",
+            "thumbnail": "img/img_QDNDVN.jpg",
+            "videoUrl": "/video/vu-dieu-quan-nhan.mp4"
+        },
+        {
+            "id": "vd-hoa-binh",
+            "title": "Vũ điệu hòa bình",
+            "thumbnail": "img/img_QK4.jpg",
+            "videoUrl": "/video/vu-dieu-hoa-binh.mp4"
+        },
+        {
+            "id": "vd-tap-the",
+            "title": "Vũ điệu tập thể",
+            "thumbnail": "img/img_f324.jpg",
+            "videoUrl": "/video/vu-dieu-tap-the.mp4"
+        },
+        {
+            "id": "vd-truyen-thong",
+            "title": "Vũ điệu truyền thống",
+            "thumbnail": "img/dtn.jpg",
+            "videoUrl": "/video/vu-dieu-truyen-thong.mp4"
+        }
+    ]
+}

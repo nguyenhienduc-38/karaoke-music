@@ -1,0 +1,32 @@
+{
+    "categories": [
+        {
+            "id": "nhac-tt",
+            "title": "Bài hát truyền thống",
+            "thumbnail": "img/img_QDNDVN.jpg",
+            "type": "direct-karaoke",
+            "note": "Nhấn vào đây sẽ chuyển trực tiếp đến trang chọn playlist karaoke"
+        },
+        {
+            "id": "nhac-kara",
+            "title": "Karaoke bài hát truyền thống",
+            "thumbnail": "img/img_QK4.jpg",
+            "type": "playlist-selection",
+            "note": "Nhấn vào đây sẽ chuyển đến music-k.html để chọn playlist"
+        },
+        {
+            "id": "huong-dan-vu-dieu",
+            "title": "Hướng dẫn các điệu nhảy vũ điệu tập thể",
+            "thumbnail": "img/img_f324.jpg",
+            "type": "page",
+            "page": "/dance-tutorial"
+        },
+        {
+            "id": "vu-dieu",
+            "title": "Vũ điệu tập thể",
+            "thumbnail": "img/dtn.jpg",
+            "type": "page",
+            "page": "/dance"
+        }
+    ]
+}
