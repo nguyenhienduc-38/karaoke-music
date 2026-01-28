@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const VIETNIX_S3_BASE = "https://s3.vn-hcm-1.vietnix.cloud/songs";
   const VIETNIX_S3_DANCE = "https://s3.vn-hcm-1.vietnix.cloud/dance";
   const VIETNIX_S3_TUTORIAL = "https://s3.vn-hcm-1.vietnix.cloud/dancetutorial";
+  const VIETNIX_S3_MUSIC = "https://s3.vn-hcm-1.vietnix.cloud/music";
 
   /* ===============================
      MOBILE MENU TOGGLE
@@ -31,30 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     ANIMATION LOGO
+     ANIMATION LOGO - DISABLED (Để giảm lag)
   =============================== */
-  document.querySelectorAll(".logo123").forEach(logo => {
-    const text = logo.textContent.trim();
-    logo.textContent = "";
-
-    [...text].forEach(ch => {
-      const span = document.createElement("span");
-      span.textContent = ch === " " ? "\u00A0" : ch;
-      logo.appendChild(span);
-    });
-
-    const letters = logo.querySelectorAll("span");
-    let i = 0;
-    setInterval(() => {
-      letters.forEach(s => {
-        s.style.transform = "scale(1)";
-        s.style.color = "red";
-      });
-      letters[i].style.transform = "scale(1.6)";
-      letters[i].style.color = "orange";
-      i = (i + 1) % letters.length;
-    }, 300);
-  });
+  // Animation đã được tắt để tối ưu performance
 
   /* ===============================
      HOME PAGE - HIỂN THỊ 4 CATEGORIES
@@ -105,11 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`📂 Clicked: ${category.id} (${category.type})`);
         
         if (category.id === 'nhac-kara') {
-          // Chuyển đến trang music-k.html để chọn playlist
           console.log(`→ Redirecting to: /karaokemusic`);
           window.location.href = '/karaokemusic';
-        } else if (category.type === 'page') {
-          // Chuyển đến trang đặc biệt
+        } else if (category.id === 'nhac-tt') {
+          console.log(`→ Redirecting to: /music`);
+          window.location.href = '/music';
+        } else if (category.type === 'page' || category.page) {
           console.log(`→ Redirecting to: ${category.page}`);
           window.location.href = category.page;
         }
@@ -126,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   =============================== */
   const videosContainer = document.querySelector(".videos");
 
-  if (videosContainer) {
+  if (videosContainer && window.location.pathname === '/karaokemusic') {
     console.log("📂 Loading playlists for music-k page...");
 
     fetch("/data/playlists.json")
@@ -169,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.onclick = () => {
         console.log(`📋 Selected playlist: ${playlist.id}`);
-        // Chuyển đến trang karaoke với playlist ID
         window.location.href = `/karaoke?playlist=${playlist.id}`;
       };
 
@@ -177,6 +157,61 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     console.log(`✅ Rendered ${playlists.length} playlists`);
+  }
+
+  /* ===============================
+     MUSIC.HTML - HIỂN THỊ PLAYLISTS NHẠC CÓ LỜI
+  =============================== */
+  if (videosContainer && window.location.pathname === '/music' && !window.location.search) {
+    console.log("📂 Loading music playlists for music page...");
+
+    fetch("/data/playlists-music.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Music playlists loaded:", data);
+        if (!data.playlists || !Array.isArray(data.playlists)) {
+          throw new Error("Invalid music playlists data format");
+        }
+        renderMusicPlaylists(data.playlists);
+      })
+      .catch(error => {
+        console.error("❌ Lỗi load playlists-music.json:", error);
+        videosContainer.innerHTML = `
+          <div style="color: #ff4444; padding: 20px; text-align: center; grid-column: 1/-1;">
+            ⚠️ Không thể tải danh sách playlist nhạc có lời<br>
+            <span style="font-size: 12px; opacity: 0.8;">${error.message}</span>
+          </div>
+        `;
+      });
+  }
+
+  function renderMusicPlaylists(playlists) {
+    videosContainer.innerHTML = "";
+
+    playlists.forEach(playlist => {
+      const card = document.createElement("div");
+      card.className = "video-card";
+      
+      card.innerHTML = `
+        <img class="thumbnail" src="${playlist.thumbnail}" alt="${playlist.title}">
+        <div class="video-info">
+          <div class="title">${playlist.title}</div>
+          <div class="channel">♪ Playlist</div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        console.log(`🎵 Selected music playlist: ${playlist.id}`);
+        window.location.href = `/musicplayer?playlist=${playlist.id}`;
+      };
+
+      videosContainer.appendChild(card);
+    });
+
+    console.log(`✅ Rendered ${playlists.length} music playlists`);
   }
 
   /* ===============================
@@ -198,38 +233,37 @@ document.addEventListener("DOMContentLoaded", () => {
           ⚠️ Không có playlist được chọn
         </div>
       `;
-      return;
+    } else {
+      console.log(`📂 Loading playlist: ${playlistId}`);
+
+      fetch("/data/songs.json")
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          const playlist = data.playlists.find(p => p.id === playlistId);
+          
+          if (!playlist) {
+            throw new Error(`Playlist not found: ${playlistId}`);
+          }
+
+          console.log(`✅ Playlist found: ${playlist.title}`);
+          console.log(`🎵 Songs count: ${playlist.songs.length}`);
+
+          renderPlaylist(playlist.songs);
+          restoreLastSong();
+        })
+        .catch(error => {
+          console.error("❌ Error loading playlist songs:", error);
+          playlistEl.innerHTML = `
+            <div style="color: #ff4444; padding: 20px; text-align: center;">
+              ⚠️ Không thể tải danh sách bài hát<br>
+              <span style="font-size: 12px;">${error.message}</span>
+            </div>
+          `;
+        });
     }
-
-    console.log(`📂 Loading playlist: ${playlistId}`);
-
-    fetch("/data/songs.json")
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json();
-      })
-      .then(data => {
-        const playlist = data.playlists.find(p => p.id === playlistId);
-        
-        if (!playlist) {
-          throw new Error(`Playlist not found: ${playlistId}`);
-        }
-
-        console.log(`✅ Playlist found: ${playlist.title}`);
-        console.log(`🎵 Songs count: ${playlist.songs.length}`);
-
-        renderPlaylist(playlist.songs);
-        restoreLastSong();
-      })
-      .catch(error => {
-        console.error("❌ Error loading playlist songs:", error);
-        playlistEl.innerHTML = `
-          <div style="color: #ff4444; padding: 20px; text-align: center;">
-            ⚠️ Không thể tải danh sách bài hát<br>
-            <span style="font-size: 12px;">${error.message}</span>
-          </div>
-        `;
-      });
   }
 
   function renderPlaylist(songs) {
@@ -239,18 +273,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const uniqueId = `song-${song.id}`;
 
       const fileName = song.videoUrl.split('/').pop();
-      const s3Url = `${VIETNIX_S3_BASE}/${fileName}`;
+      const videoUrl = `${VIETNIX_S3_BASE}/${fileName}`;
 
       playlistEl.insertAdjacentHTML("beforeend", `
         <input type="radio" name="track" id="${uniqueId}"
-               data-video="${s3Url}"
+               data-video="${videoUrl}"
                data-title="${song.title}"
                ${index === 0 ? 'checked' : ''}>
         <label for="${uniqueId}" class="track">
           <img class="thumb" src="${song.thumbnail}">
           <div class="meta">
             <div class="title">${song.title}</div>
-            <div class="artist">${song.author || ""}</div>
+            <div class="artist">${song.author}</div>
           </div>
         </label>
       `);
@@ -262,31 +296,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function bindPlayerEvents() {
     document.querySelectorAll('input[name="track"]').forEach(input => {
-      input.addEventListener("change", () => {
-        loadAndPlayVideo(input);
+      input.addEventListener("change", function () {
+        if (this.checked) {
+          const title = this.dataset.title;
+          const videoUrl = this.dataset.video;
+
+          console.log(`🎵 Selected: ${title}`);
+          console.log(`📹 URL: ${videoUrl}`);
+
+          localStorage.setItem("currentSong", this.id);
+          loadAndPlayVideo(title, videoUrl);
+        }
       });
     });
+
+    const firstTrack = document.querySelector('input[name="track"]:checked');
+    if (firstTrack) {
+      const title = firstTrack.dataset.title;
+      const videoUrl = firstTrack.dataset.video;
+      console.log(`🎵 Auto-loading first track: ${title}`);
+      loadAndPlayVideo(title, videoUrl);
+    }
   }
 
-  function loadAndPlayVideo(input) {
-    const videoUrl = input.dataset.video;
-    const title = input.dataset.title;
-
-    console.log(`📹 Loading: ${title}`);
-    console.log(`🔗 URL: ${videoUrl}`);
-
-    // Lưu lựa chọn hiện tại
-    localStorage.setItem("currentSong", input.id);
-
-    videoPlayer.pause();
-    videoPlayer.removeAttribute('src');
-    videoSrc.removeAttribute('src');
+  function loadAndPlayVideo(title, videoUrl) {
+    console.log(`📺 Loading video: ${title}`);
+    videoWrapper.style.display = "flex";
+    videoPlayer.style.opacity = "0.5";
 
     setTimeout(() => {
-      videoWrapper.style.display = "flex";
-      
-      // Thêm loading indicator
-      videoPlayer.style.opacity = "0.5";
       const loadingText = document.createElement('div');
       loadingText.textContent = 'Đang tải video...';
       loadingText.style.cssText = `
@@ -316,7 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
           loadingText.remove();
         }
         
-        // Auto play
         const playPromise = videoPlayer.play();
         if (playPromise !== undefined) {
           playPromise
@@ -378,11 +415,114 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
+     MUSICQD.HTML - TẢI MUSIC PLAYER
+  =============================== */
+  const musicPlaylist = document.getElementById("musicPlaylist");
+  
+  if (musicPlaylist) {
+    const params = new URLSearchParams(window.location.search);
+    const playlistId = params.get("playlist");
+
+    if (!playlistId) {
+      console.warn("⚠️ No playlist ID in URL");
+      musicPlaylist.innerHTML = `
+        <div style="color: #ff4444; padding: 20px; text-align: center;">
+          ⚠️ Không có playlist được chọn
+        </div>
+      `;
+    } else {
+      console.log(`📂 Loading music playlist: ${playlistId}`);
+
+      fetch("/data/songs-music.json")
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          const playlist = data.playlists.find(p => p.id === playlistId);
+          
+          if (!playlist) {
+            throw new Error(`Playlist not found: ${playlistId}`);
+          }
+
+          console.log(`✅ Music playlist found: ${playlist.title}`);
+          console.log(`🎵 Songs count: ${playlist.songs.length}`);
+
+          renderMusicPlaylist(playlist.songs);
+          restoreLastMusic();
+        })
+        .catch(error => {
+          console.error("❌ Error loading music playlist:", error);
+          musicPlaylist.innerHTML = `
+            <div style="color: #ff4444; padding: 20px; text-align: center;">
+              ⚠️ Không thể tải danh sách bài hát<br>
+              <span style="font-size: 12px;">${error.message}</span>
+            </div>
+          `;
+        });
+    }
+  }
+
+  function renderMusicPlaylist(songs) {
+    musicPlaylist.innerHTML = "";
+
+    songs.forEach((song, index) => {
+      const uniqueId = `music-${song.id}`;
+      const fileName = song.videoUrl.split('/').pop();
+      const videoUrl = `${VIETNIX_S3_MUSIC}/${fileName}`;
+      
+      const isFirst = index === 0;
+
+      musicPlaylist.insertAdjacentHTML("beforeend", `
+        <input type="radio" name="track" id="${uniqueId}"
+               data-video="${videoUrl}"
+               data-title="${song.title}"
+               ${isFirst ? 'checked' : ''}>
+        <label for="${uniqueId}" class="track">
+          <img class="thumb" src="${song.thumbnail}">
+          <div class="meta">
+            <div class="title">${song.title}</div>
+            <div class="artist">${song.author}</div>
+          </div>
+        </label>
+      `);
+    });
+
+    console.log(`✅ Rendered ${songs.length} music items`);
+    bindPlayerEvents();
+  }
+
+  function restoreLastMusic() {
+    const saved = localStorage.getItem("currentMusic");
+    if (!saved) return;
+
+    const input = document.getElementById(saved);
+    if (input) {
+      input.checked = true;
+      console.log("💾 Restored last music");
+
+      const videoUrl = input.dataset.video;
+      const title = input.dataset.title;
+
+      console.log(`📹 Restoring: ${title}`);
+
+      videoWrapper.style.display = "flex";
+      videoSrc.src = videoUrl;
+      videoPlayer.load();
+
+      videoPlayer.addEventListener("loadedmetadata", function onRestore() {
+        console.log(`✅ Video restored: ${title} - Ready to play`);
+        videoPlayer.removeEventListener("loadedmetadata", onRestore);
+      });
+    }
+  }
+
+  /* ===============================
      DANCE.HTML - TẢI DANCE DATA
   =============================== */
   const danceList = document.getElementById("danceList");
 
-  if (danceList) {
+  if (danceList && !window.location.pathname.includes('dance-tutorial')) {
     console.log("📂 Loading dance.json...");
     
     fetch("/data/dance.json")
@@ -414,7 +554,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dances.forEach((dance, index) => {
       const id = `dance-${dance.id}`;
 
-      // Sử dụng S3 DANCE bucket
       let videoUrl = '';
       if (dance.videoUrl) {
         videoUrl = `${VIETNIX_S3_DANCE}/${dance.videoUrl}`;
@@ -441,7 +580,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      DANCE-TUTORIAL.HTML - TẢI TUTORIAL DATA  
   =============================== */
-  // Sử dụng danceList vì cả 2 trang có cùng ID
   if (window.location.pathname.includes('dance-tutorial') && danceList) {
     console.log("📂 Loading dance-tutorial.json...");
     
@@ -474,7 +612,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tutorials.forEach((tutorial, index) => {
       const id = `tutorial-${tutorial.id}`;
 
-      // Sử dụng S3 TUTORIAL bucket
       let videoUrl = '';
       if (tutorial.videoUrl) {
         videoUrl = `${VIETNIX_S3_TUTORIAL}/${tutorial.videoUrl}`;

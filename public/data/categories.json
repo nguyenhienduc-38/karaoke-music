@@ -1,17 +1,19 @@
 {
     "categories": [
         {
-            "id": "nhac-tt",
+            "id": "music-lyrics",
             "title": "Bài hát truyền thống",
             "thumbnail": "img/img_QDNDVN.jpg",
             "type": "music-page",
-            "note": "Nhấn vào đây sẽ chuyển đến trang music.html để xem 15 bài hát có lời"
+            "page": "/music",
+            "note": "Nhấn vào đây sẽ chuyển đến trang music.html để xem bài hát có lời"
         },
         {
             "id": "nhac-kara",
             "title": "Karaoke bài hát truyền thống",
             "thumbnail": "img/img_QK4.jpg",
             "type": "playlist-selection",
+            "page": "/karaokemusic",
             "note": "Nhấn vào đây sẽ chuyển đến music-k.html để chọn playlist"
         },
         {

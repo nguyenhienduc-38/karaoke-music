@@ -1,4 +1,4 @@
-/* MILITARY THEME - MUSIC PAGE - LIGHTWEIGHT */
+/* MILITARY THEME - HOME PAGE - REDESIGNED */
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ html, body {
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0a1f0a 0%, #1a1a1a 100%);
+    background: #1a1a1a;
 }
 
 /* ===== TOPBAR - MILITARY STYLE ===== */
@@ -27,13 +27,19 @@ body {
     align-items: center;
     height: 100px;
     padding: 0 30px;
-    background-color: rgba(26, 192, 70, 0.85);
+
+    background-color: rgba(26, 192, 70, 0.85); /* xanh quân đội mờ */
+
     background-image: 
         url('/img/1234.jpg'), 
         url('/img/dtn.jpg');
+
     background-size: 60%, 9%;
     background-repeat: no-repeat, no-repeat;
+
+    /* ảnh 1 ở giữa lệch trái, ảnh 2 sát phải */
     background-position: center left 70%, right 20px center;
+
     border-bottom: 4px solid #4b6b57;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
@@ -93,6 +99,53 @@ body {
     transform: scale(1.05);
 }
 
+.logo123 span {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* ===== VIDEO BACKGROUND ===== */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) contrast(1.3) saturate(1.2);
+    animation: videoGlow 3s ease-in-out infinite;
+}
+
+@keyframes videoGlow {
+    0%, 100% {
+        filter: brightness(0.8) contrast(1.3) saturate(1.2);
+    }
+    50% {
+        filter: brightness(0.9) contrast(1.4) saturate(1.3);
+    }
+}
+
+.video-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        rgba(26, 77, 26, 0.5) 0%, 
+        rgba(0, 0, 0, 0.7) 100%
+    );
+    z-index: 1;
+}
+
 /* ===== CONTENT AREA - FIXED ===== */
 .content {
     position: fixed;
@@ -141,7 +194,7 @@ body {
     background: #3d6026;
 }
 
-/* ===== VIDEO CARDS ===== */
+/* ===== VIDEO CARDS - ENHANCED ===== */
 .video-card {
     background: linear-gradient(145deg, #1e3a1e 0%, #152815 100%);
     border: 2px solid #2d5016;
@@ -149,7 +202,7 @@ body {
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-    transition: all 0.3s ease;
+    transition: all 0.35s ease;
     position: relative;
     height: fit-content;
     width: 100%;
@@ -171,9 +224,19 @@ body {
     transition: opacity 0.3s ease;
 }
 
+.video-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(212, 175, 55, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
 .video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4);
     border-color: #d4af37;
 }
 
@@ -181,15 +244,21 @@ body {
     opacity: 1;
 }
 
+.video-card:hover::after {
+    opacity: 1;
+}
+
 .thumbnail {
     width: 100%;
     height: 160px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(0.85);
 }
 
 .video-card:hover .thumbnail {
-    transform: scale(1.05);
+    transform: scale(1.12);
+    filter: brightness(1.1);
 }
 
 .video-info {
@@ -212,6 +281,8 @@ body {
 
 .video-card:hover .video-info .title {
     color: #ffd700;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+    letter-spacing: 1.2px;
 }
 
 .video-info .channel {
@@ -247,6 +318,386 @@ body::before {
         );
     pointer-events: none;
     z-index: -1;
+}
+
+/* ===== ĐÈN SÁNG NHÁY - STAGE LIGHTS ===== */
+.stage-light {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(60px);
+    opacity: 0.4;
+}
+
+.stage-light.light-1 {
+    top: 15%;
+    left: 10%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+    animation: lightPulse1 2s ease-in-out infinite;
+}
+
+.stage-light.light-2 {
+    top: 20%;
+    right: 15%;
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.6) 0%, transparent 70%);
+    animation: lightPulse2 2.5s ease-in-out infinite;
+}
+
+.stage-light.light-3 {
+    bottom: 25%;
+    left: 20%;
+    background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, transparent 70%);
+    animation: lightPulse3 3s ease-in-out infinite;
+}
+
+.stage-light.light-4 {
+    bottom: 30%;
+    right: 10%;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, transparent 70%);
+    animation: lightPulse4 2.8s ease-in-out infinite;
+}
+
+.stage-light.light-5 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 69, 0, 0.4) 0%, transparent 70%);
+    animation: lightPulse5 3.5s ease-in-out infinite;
+}
+
+@keyframes lightPulse1 {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+@keyframes lightPulse2 {
+    0%, 100% { opacity: 0.3; transform: scale(0.9); }
+    50% { opacity: 0.7; transform: scale(1.3); }
+}
+
+@keyframes lightPulse3 {
+    0%, 100% { opacity: 0.25; transform: scale(1.1); }
+    50% { opacity: 0.65; transform: scale(1.4); }
+}
+
+@keyframes lightPulse4 {
+    0%, 100% { opacity: 0.2; transform: scale(0.95); }
+    50% { opacity: 0.6; transform: scale(1.25); }
+}
+
+@keyframes lightPulse5 {
+    0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* ===== NỐT NHẠC BAY DỌC ===== */
+.music-notes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.music-note {
+    position: absolute;
+    font-size: 24px;
+    color: #ffd700;
+    opacity: 0;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    animation: floatNote 8s linear infinite;
+}
+
+.music-note:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+    font-size: 28px;
+}
+
+.music-note:nth-child(2) {
+    left: 25%;
+    animation-delay: 1.5s;
+    font-size: 22px;
+}
+
+.music-note:nth-child(3) {
+    left: 40%;
+    animation-delay: 3s;
+    font-size: 26px;
+}
+
+.music-note:nth-child(4) {
+    left: 55%;
+    animation-delay: 4.5s;
+    font-size: 20px;
+}
+
+.music-note:nth-child(5) {
+    left: 70%;
+    animation-delay: 6s;
+    font-size: 24px;
+}
+
+.music-note:nth-child(6) {
+    left: 85%;
+    animation-delay: 2s;
+    font-size: 30px;
+}
+
+.music-note:nth-child(7) {
+    left: 15%;
+    animation-delay: 5s;
+    font-size: 18px;
+}
+
+.music-note:nth-child(8) {
+    left: 60%;
+    animation-delay: 7s;
+    font-size: 25px;
+}
+
+@keyframes floatNote {
+    0% {
+        bottom: -50px;
+        opacity: 0;
+        transform: translateX(0) rotate(0deg);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(20px) rotate(180deg);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(-20px) rotate(360deg);
+    }
+}
+
+/* ===== NỐT NHẠC BAY NGANG ===== */
+.flying-notes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.flying-note {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0;
+    animation: flyAcross 12s linear infinite;
+}
+
+.flying-note:nth-child(1) {
+    top: 20%;
+    color: #ff69b4;
+    text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+    animation-delay: 0s;
+}
+
+.flying-note:nth-child(2) {
+    top: 35%;
+    color: #00bfff;
+    text-shadow: 0 0 15px rgba(0, 191, 255, 0.8);
+    animation-delay: 3s;
+}
+
+.flying-note:nth-child(3) {
+    top: 50%;
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation-delay: 6s;
+}
+
+.flying-note:nth-child(4) {
+    top: 65%;
+    color: #9370db;
+    text-shadow: 0 0 15px rgba(147, 112, 219, 0.8);
+    animation-delay: 9s;
+}
+
+.flying-note:nth-child(5) {
+    top: 80%;
+    color: #ff4500;
+    text-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
+    animation-delay: 1.5s;
+}
+
+@keyframes flyAcross {
+    0% {
+        left: -50px;
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        left: 110%;
+        opacity: 0;
+        transform: scale(0.5) rotate(360deg);
+    }
+}
+
+/* ===== DISCO SPOTS ===== */
+.disco-spots {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.disco-spot {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: discoMove 4s ease-in-out infinite;
+    opacity: 0;
+}
+
+.disco-spot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.disco-spot:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.disco-spot:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.disco-spot:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+.disco-spot:nth-child(5) {
+    animation-delay: 2s;
+}
+
+@keyframes discoMove {
+    0% {
+        top: 10%;
+        left: 10%;
+        opacity: 0;
+    }
+    25% {
+        top: 80%;
+        left: 30%;
+        opacity: 0.6;
+    }
+    50% {
+        top: 20%;
+        left: 70%;
+        opacity: 0.8;
+    }
+    75% {
+        top: 70%;
+        left: 80%;
+        opacity: 0.6;
+    }
+    100% {
+        top: 30%;
+        left: 20%;
+        opacity: 0;
+    }
+}
+
+/* ===== SPARKLES - TIA SÁNG ===== */
+.sparkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px #ffd700;
+    animation: sparkleAnimation 3s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) {
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+    top: 25%;
+    left: 60%;
+    animation-delay: 0.5s;
+}
+
+.sparkle:nth-child(3) {
+    top: 45%;
+    left: 30%;
+    animation-delay: 1s;
+}
+
+.sparkle:nth-child(4) {
+    top: 55%;
+    left: 75%;
+    animation-delay: 1.5s;
+}
+
+.sparkle:nth-child(5) {
+    top: 70%;
+    left: 15%;
+    animation-delay: 2s;
+}
+
+.sparkle:nth-child(6) {
+    top: 80%;
+    left: 85%;
+    animation-delay: 2.5s;
+}
+
+@keyframes sparkleAnimation {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
 }
 
 /* ===== RESPONSIVE TABLET ===== */
@@ -323,7 +774,32 @@ body::before {
     }
 
     .video-card:hover {
-        transform: translateX(8px);
+        transform: translateX(8px) scale(1.02);
+    }
+
+    /* Responsive cho hiệu ứng */
+    .stage-light {
+        width: 150px;
+        height: 150px;
+        filter: blur(40px);
+    }
+    
+    .stage-light.light-5 {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .music-note {
+        font-size: 18px;
+    }
+    
+    .flying-note {
+        font-size: 16px;
+    }
+    
+    .disco-spot {
+        width: 30px;
+        height: 30px;
     }
 }
 

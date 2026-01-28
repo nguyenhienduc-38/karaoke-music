@@ -1,0 +1,154 @@
+{
+    "playlists": [
+        {
+            "id": "15-bai-quydinh",
+            "title": "15 bài hát quy định",
+            "songs": [
+                {
+                    "id": 1,
+                    "title": "Quốc tế ca",
+                    "author": "Eugène Pottier",
+                    "videoUrl": "QTC.mp4",
+                    "thumbnail": "img/img_QTC.jpg"
+                },
+                {
+                    "id": 2,
+                    "title": "Tiến Quân Ca",
+                    "author": "Văn Cao",
+                    "videoUrl": "TQC.mp4",
+                    "thumbnail": "img/img_QC.jpg"
+                },
+                {
+                    "id": 3,
+                    "title": "Ca ngợi Hồ Chủ Tịch",
+                    "author": "Lưu Hữu Phước",
+                    "videoUrl": "CNHCT.mp4",
+                    "thumbnail": "img/img_CNHCT.jpg"
+                },
+                {
+                    "id": 4,
+                    "title": "Chào mừng Đảng Cộng Sản Việt Nam",
+                    "author": "Đỗ Minh",
+                    "videoUrl": "CMDCSVN.mp4",
+                    "thumbnail": "img/img_DCSVN.jpg"
+                },
+                {
+                    "id": 5,
+                    "title": "Vì Nhân Dân Quên Mình",
+                    "author": "Doãn Quang Khải",
+                    "videoUrl": "VNDQM.mp4",
+                    "thumbnail": "img/img_VNDQM.jpg"
+                },
+                {
+                    "id": 6,
+                    "title": "Giải Phóng Điện Biên",
+                    "author": "Đỗ Nhuận",
+                    "videoUrl": "GPDB.mp4",
+                    "thumbnail": "img/img_GPDB.jpg"
+                },
+                {
+                    "id": 7,
+                    "title": "Tiến Bước Dưới Quân Kỳ",
+                    "author": "Doãn Nho",
+                    "videoUrl": "TBDQK.mp4",
+                    "thumbnail": "img/img_TBDQK.jpg"
+                },
+                {
+                    "id": 8,
+                    "title": "Bác Đang Cùng Chúng Cháu Hành Quân",
+                    "author": "Huy Thục",
+                    "videoUrl": "BDCCCHQ.mp4",
+                    "thumbnail": "img/img_BDCCCHQ.jpg"
+                },
+                {
+                    "id": 9,
+                    "title": "Thanh Niên Làm Theo Lời Bác",
+                    "author": "Hoàng Hòa",
+                    "videoUrl": "TNLTLB.mp4",
+                    "thumbnail": "img/img_TNLTLB.jpg"
+                },
+                {
+                    "id": 10,
+                    "title": "Hát Mãi Khúc Quân Hành",
+                    "author": "Diệp Minh Tuyền",
+                    "videoUrl": "HMKQH.mp4",
+                    "thumbnail": "img/img_HMKQH.jpg"
+                },
+                {
+                    "id": 11,
+                    "title": "Như Có Bác Trong Ngày Vui Đại Thắng",
+                    "author": "Phạm Tuyên",
+                    "videoUrl": "NCBHTNVDT.mp4",
+                    "thumbnail": "img/img_NCBHTNVDT.jpg"
+                },
+                {
+                    "id": 12,
+                    "title": "Trái Tim Chiến Sĩ",
+                    "author": "Trần Việt Được",
+                    "videoUrl": "TTCS.mp4",
+                    "thumbnail": "img/img_TTCS.jpg"
+                },
+                {
+                    "id": 13,
+                    "title": "Cuộc Đời Vẫn Đẹp Sao",
+                    "author": "Phan Huỳnh Điểu",
+                    "videoUrl": "CDVDS.mp4",
+                    "thumbnail": "img/img_CDVDS.jpg"
+                },
+                {
+                    "id": 14,
+                    "title": "Ước Mơ Chiến Sĩ",
+                    "author": "Lưu Hà An",
+                    "videoUrl": "UMCS.mp4",
+                    "thumbnail": "img/img_UMCS.jpg"
+                },
+                {
+                    "id": 15,
+                    "title": "Tổ Quốc Trong Tim",
+                    "author": "Trần Quốc Đạt",
+                    "videoUrl": "TQTT.mp4",
+                    "thumbnail": "img/img_TQTT.jpg"
+                }
+            ]
+        },
+        {
+            "id": "nhac-quankhu",
+            "title": "Nhạc truyền thống Quân Khu",
+            "songs": [
+                {
+                    "id": 1,
+                    "title": "Nhạc truyền thống Quân khu 4",
+                    "author": "",
+                    "videoUrl": "QK4.mp4",
+                    "thumbnail": "img/img_QK4.jpg"
+                }
+            ]
+        },
+        {
+            "id": "nhac-sudoan",
+            "title": "Nhạc truyền thống Sư đoàn",
+            "songs": [
+                {
+                    "id": 1,
+                    "title": "Nhạc truyền thống Sư đoàn 324",
+                    "author": "",
+                    "videoUrl": "f324.mp4",
+                    "thumbnail": "img/img_f324.jpg"
+                }
+            ]
+        },
+        {
+            "id": "nhac-trungdoan",
+            "title": "Nhạc truyền thống Trung đoàn",
+            "songs": [
+                {
+                    "id": 1,
+                    "title": "Nhạc truyền thống Trung đoàn 335",
+                    "author": "",
+                    "videoUrl": "e335.mp4",
+                    "thumbnail": "img/img_e335.jpg"
+                }
+            ]
+        }
+    ]
+}
