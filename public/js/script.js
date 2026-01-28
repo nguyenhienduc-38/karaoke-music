@@ -636,14 +636,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     HOME BUTTON - TRỞ VỀ TRANG CHỦ
+     HOME/BACK BUTTON
   =============================== */
   const homeBtn = document.getElementById("homeBtn");
   if (homeBtn) {
-    homeBtn.addEventListener("click", () => {
-      console.log("🏠 Going home...");
-      window.location.href = "/index";
-    });
+    const currentPath = window.location.pathname;
+    
+    // Các trang player thì nút home thành nút back
+    if (currentPath === '/karaoke' || currentPath === '/musicplayer' || 
+        currentPath === '/dance-tutorial') {
+      
+      // Thay đổi icon và text thành Back
+      const icon = homeBtn.querySelector('i');
+      const text = homeBtn.querySelector('.btn-text');
+      if (icon) icon.className = 'fas fa-arrow-left';
+      if (text) text.textContent = 'Quay lại';
+      
+      // Click thì quay về trang trước
+      homeBtn.addEventListener("click", () => {
+        console.log("⬅️ Going back...");
+        window.history.back();
+      });
+    } else {
+      // Các trang khác giữ nguyên về home
+      homeBtn.addEventListener("click", () => {
+        console.log("🏠 Going home...");
+        window.location.href = "/index";
+      });
+    }
   }
 
   /* ===============================

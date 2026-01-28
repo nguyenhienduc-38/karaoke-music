@@ -3,31 +3,31 @@
         {
             "id": "vd-hanh-quan",
             "title": "Vũ điệu Hành Quân",
-            "thumbnail": "img/img_QDNDVN.jpg",
+            "thumbnail": "img/vdhq.jpg",
             "videoUrl": "nhachanhquan.mp4"
         },
         {
             "id": "vd-hoa-binh",
             "title": "Vũ điệu Hoà Bình",
-            "thumbnail": "img/img_QK4.jpg",
+            "thumbnail": "img/vdhb.jpg",
             "videoUrl": "nhachoabinh.mp4"
         },
         {
             "id": "vd-linh-tre",
             "title": "Vũ điệu Lính Trẻ",
-            "thumbnail": "img/img_f324.jpg",
+            "thumbnail": "img/vdlt.jpg",
             "videoUrl": "nhaclinhtre.mp4"
         },
         {
             "id": "vd-niem-tin",
             "title": "Vũ điệu Niềm Tin",
-            "thumbnail": "img/dtn.jpg",
+            "thumbnail": "img/vdnt.jpg",
             "videoUrl": "nhacniemtin.mp4"
         },
         {
             "id": "vd-quan-dan",
             "title": "Vũ điệu Quân Dân",
-            "thumbnail": "img/img_QDNDVN.jpg",
+            "thumbnail": "img/vdqd.jpg",
             "videoUrl": "nhacquandan.mp4"
         }
     ]

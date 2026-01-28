@@ -447,7 +447,7 @@ body::before {
 /* ===== LANDSCAPE MODE ===== */
 @media (max-height: 600px) and (orientation: landscape) {
     .topbar {
-        height: 75px;
+        height: 90px;
         padding: 0 30px;
     }
 

@@ -3,7 +3,7 @@
         {
             "id": "music-lyrics",
             "title": "Bài hát truyền thống",
-            "thumbnail": "img/img_QDNDVN.jpg",
+            "thumbnail": "img/anhnhactt.jpg",
             "type": "music-page",
             "page": "/music",
             "note": "Nhấn vào đây sẽ chuyển đến trang music.html để xem bài hát có lời"
@@ -11,22 +11,22 @@
         {
             "id": "nhac-kara",
             "title": "Karaoke bài hát truyền thống",
-            "thumbnail": "img/img_QK4.jpg",
+            "thumbnail": "img/micro.png",
             "type": "playlist-selection",
             "page": "/karaokemusic",
             "note": "Nhấn vào đây sẽ chuyển đến music-k.html để chọn playlist"
         },
         {
             "id": "huong-dan-vu-dieu",
-            "title": "Hướng dẫn các điệu nhảy vũ điệu tập thể",
-            "thumbnail": "img/img_f324.jpg",
+            "title": "Hướng dẫn các vũ điệu tập thể",
+            "thumbnail": "img/tapvudieu.png",
             "type": "page",
             "page": "/dance-tutorial"
         },
         {
             "id": "vu-dieu",
-            "title": "Vũ điệu tập thể",
-            "thumbnail": "img/dtn.jpg",
+            "title": "Nhạc vũ điệu tập thể",
+            "thumbnail": "img/vudieu.jpg",
             "type": "page",
             "page": "/dance"
         }
